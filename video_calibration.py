@@ -32,12 +32,11 @@ while True:
     
     frame_path = os.path.join(output_dir,f'frame_{frame_count}.jpg')  #provide path where frame is to stored
     cv2.imwrite(frame_path,frame)                                     #store images
-    
-    frame_count+=1                                 
-     
+    frame_count+=1    
+   
     if frame_count >=250:                                             #stop after reading 250 frames. Increase if needed for better calibration
-        break
-    
+        break   
+       
 cap.release()
 
 CHECKERBOARD = (5,7)                                                  #Enter checkerboard dimesions. Count of internal square
@@ -62,10 +61,8 @@ for img_path in images:
         assert _img_shape == img.shape[:2]
   
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    print('done')
     ret,corners = cv2.findChessboardCorners(gray,CHECKERBOARD,cv2.CALIB_CB_ADAPTIVE_THRESH+cv2.CALIB_CB_FAST_CHECK+cv2.CALIB_CB_NORMALIZE_IMAGE)
-    print(ret)
-    
+   
     if ret == True:
         objpoints.append(objp)
         corner2 = cv2.cornerSubPix(gray, corners,(3,3),(-1,-1),subpix_criteria)
@@ -75,7 +72,7 @@ for img_path in images:
     else:
         os.remove(img_path)
 
-print(count)        
+print('Total images ok for calibration are:',count)        
 
 N_OK = len(objpoints)
 camMatrix = np.zeros((3,3))
