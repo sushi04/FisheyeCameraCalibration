@@ -10,7 +10,12 @@ output_dir ='/home/userpa/Desktop/calibration'
 os.makedirs(output_dir, exist_ok=True)
 os.environ['OPENCV_FFMPEG_CAPTURE_OPTIONS'] = "video_codec"
 
-camId = input('Enter camera id:')
+while True:
+   camId = input('Enter camera id:')
+   if camId.isdigit():
+       break
+   else:
+       print('Please enter valid camera id. Integers only')
 
 cap = cv2.VideoCapture(rtsp_link) # capture the video from rtsp_link
 fps = 25
