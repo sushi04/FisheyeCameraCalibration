@@ -4,31 +4,24 @@ import numpy as np
 import glob
 
 
-rtsp_link ='rtsp://10.8.0.12:8554/h264'
-output_dir ='/home/userpa/Desktop/calibration'
+rtsp_link ='rtsp://10.8.0.12:8554/h264'          # Enter RTSP link 
+output_dir ='/home/userpa/Desktop/calibration'   # Enter the location where you want to store the calibration images
 
 os.makedirs(output_dir, exist_ok=True)
 os.environ['OPENCV_FFMPEG_CAPTURE_OPTIONS'] = "video_codec"
 
 while True:
-   camId = input('Enter camera id:')
+   camId = input('Enter camera id:')               # Enter camera id
    if camId.isdigit():
        break
    else:
        print('Please enter valid camera id. Integers only')
 
 cap = cv2.VideoCapture(rtsp_link) # capture the video from rtsp_link
-fps = 25
+
 if not cap.isOpened():         #check if video is captured
     print("Error could not open video stream")
     exit()
-
-
-#cap.set(cv2.CAP_PROP_FPS,fps)
-
-#actual_fps = cap.get(cv2.CAP_PROP_FPS)
-#print("Actual frame rate:", actual_fps)
-
 
 frame_count = 0                          #count no. of frames 
 while True:
@@ -42,12 +35,12 @@ while True:
     
     frame_count+=1                                 
      
-    if frame_count >=250:                                             #stop after reading 100 frames
+    if frame_count >=250:                                             #stop after reading 250 frames. Increase if needed for better calibration
         break
     
 cap.release()
 
-CHECKERBOARD = (5,7)
+CHECKERBOARD = (5,7)                                                  #Enter checkerboard dimesions. Count of internal square
 subpix_criteria = (cv2.TermCriteria_MAX_ITER + cv2.TERM_CRITERIA_EPS,30,0.01)
 calibration_flags = cv2.fisheye.CALIB_RECOMPUTE_EXTRINSIC+cv2.fisheye.CALIB_CHECK_COND+cv2.fisheye.CALIB_FIX_SKEW
 
